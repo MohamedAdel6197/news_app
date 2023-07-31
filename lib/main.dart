@@ -1,26 +1,39 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
+
 import 'package:news_app/cubit/cubit.dart';
 import 'package:news_app/cubit/states.dart';
 import 'package:news_app/layout/news_home_layout.dart';
+import 'package:news_app/network/local/cache_helper.dart';
 import 'package:news_app/network/remote/dio_helper.dart';
 import 'package:news_app/shared/bloc_observer.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
-  runApp(const NewsApp());
+  await CacheHelper.init();
+  bool? savedBool = CacheHelper.getBool(key: "isDark");
+  runApp(NewsApp(
+    isDarkSaved: savedBool,
+  ));
 }
 
 class NewsApp extends StatelessWidget {
-  const NewsApp({super.key});
+  bool? isDarkSaved;
+  NewsApp({
+    Key? key,
+    required this.isDarkSaved,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit(),
+      create: (context) =>
+          AppCubit()..changeDarkModeTheme(savedBool: isDarkSaved),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -35,7 +48,7 @@ class NewsApp extends StatelessWidget {
                 titleTextStyle: TextStyle(
                   color: Colors.black,
                   fontSize: 30.0,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w700,
                 ),
                 systemOverlayStyle: const SystemUiOverlayStyle(
                   statusBarColor: Colors.white,
@@ -92,13 +105,14 @@ class NewsApp extends StatelessWidget {
                 selectedItemColor: Colors.deepOrange,
                 unselectedItemColor: Colors.grey,
               ),
-              textTheme: const TextTheme(
-                bodyLarge: TextStyle(
+              // ignore: prefer_const_constructors
+              textTheme: TextTheme(
+                bodyLarge: const TextStyle(
                   color: Colors.white,
                   fontSize: 20.0,
                   fontWeight: FontWeight.w500,
                 ),
-                bodyMedium: TextStyle(
+                bodyMedium: const TextStyle(
                   fontSize: 16.0,
                   color: Colors.white,
                 ),

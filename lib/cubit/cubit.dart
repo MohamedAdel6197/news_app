@@ -4,6 +4,7 @@ import 'package:news_app/cubit/states.dart';
 import 'package:news_app/modules/business.dart';
 import 'package:news_app/modules/science.dart';
 import 'package:news_app/modules/sports.dart';
+import 'package:news_app/network/local/cache_helper.dart';
 import 'package:news_app/network/remote/dio_helper.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -39,9 +40,16 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   bool isDark = false;
-  void changeDarkModeTheme() {
-    isDark = !isDark;
-    emit(ChangeDarkModeState());
+  void changeDarkModeTheme({bool? savedBool}) {
+    if (savedBool != null) {
+      isDark = savedBool;
+      emit(ChangeDarkModeState());
+    } else {
+      isDark = !isDark;
+      CacheHelper.setBool(key: "isDark", value: isDark).then((value) {
+        emit(ChangeDarkModeState());
+      });
+    }
   }
 
   List<dynamic> business = [];
@@ -59,7 +67,7 @@ class AppCubit extends Cubit<AppStates> {
       business = value.data['articles'];
       emit(GetSuccessBusinessState());
       // ignore: avoid_print
-      print("$business \n");
+      print("${business.length} \n");
     }).catchError((onError) {
       // ignore: avoid_print
       print("onError , $onError");
@@ -82,7 +90,7 @@ class AppCubit extends Cubit<AppStates> {
       sports = value.data['articles'];
       emit(GetSuccessSportsState());
       // ignore: avoid_print
-      print("$sports \n");
+      print("${sports.length} \n");
     }).catchError((onError) {
       // ignore: avoid_print
       print("onError , $onError");
@@ -105,7 +113,7 @@ class AppCubit extends Cubit<AppStates> {
       science = value.data['articles'];
       emit(GetSuccessScienceState());
       // ignore: avoid_print
-      print("$science \n");
+      print("${science.length} \n");
     }).catchError((onError) {
       // ignore: avoid_print
       print("onError , $onError");
