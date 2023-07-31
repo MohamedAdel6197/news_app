@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/cubit/states.dart';
-import 'package:news_app/modules/business.dart';
-import 'package:news_app/modules/science.dart';
-import 'package:news_app/modules/sports.dart';
+import 'package:news_app/modules/business/business.dart';
+import 'package:news_app/modules/science/science.dart';
+import 'package:news_app/modules/sport/sports.dart';
 import 'package:news_app/network/local/cache_helper.dart';
 import 'package:news_app/network/remote/dio_helper.dart';
 
@@ -121,3 +121,10 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 }
+
+//https://newsapi.org/
+//v2/everything
+// ?
+//q=tasla &
+//apiKey=7e93f02ba64347de9269a419dc6149e0
+//
