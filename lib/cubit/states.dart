@@ -31,4 +31,13 @@ class GetErrorScienceState implements AppStates {
   GetErrorScienceState(this.error);
 }
 
+class LoadingSearchState implements AppStates {}
+
+class GetSuccessSearchState implements AppStates {}
+
+class GetErrorSearchState implements AppStates {
+  String error;
+  GetErrorSearchState(this.error);
+}
+
 class ChangeDarkModeState implements AppStates {}

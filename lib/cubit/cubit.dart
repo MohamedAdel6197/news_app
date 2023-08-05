@@ -120,6 +120,25 @@ class AppCubit extends Cubit<AppStates> {
       emit(GetErrorScienceState("onError"));
     });
   }
+
+  List<dynamic> search = [];
+  void getSearchData({required String searchWord}) {
+    search = [];
+    emit(LoadingSearchState());
+    DioHelper.getNewsData(
+      path: 'v2/everything',
+      query: {"q": '$searchWord', "apiKey": '7e93f02ba64347de9269a419dc6149e0'},
+    ).then((value) {
+      search = value.data['articles'];
+      emit(GetSuccessSearchState());
+      // ignore: avoid_print
+      print("${search.length} \n");
+    }).catchError((onError) {
+      // ignore: avoid_print
+      print("onError , $onError");
+      emit(GetErrorSearchState("onError"));
+    });
+  }
 }
 
 //https://newsapi.org/

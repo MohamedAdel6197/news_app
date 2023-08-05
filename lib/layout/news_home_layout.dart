@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/cubit/cubit.dart';
 import 'package:news_app/cubit/states.dart';
+import 'package:news_app/modules/search/search_screen.dart';
+import 'package:news_app/shared/components.dart';
 
 class HomeNews extends StatelessWidget {
   const HomeNews({super.key});
@@ -17,7 +19,12 @@ class HomeNews extends StatelessWidget {
             title: const Text("News"),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  navigateTo(context, const SearchScreen());
+                  // عشان اهنل حته اني لما اعمل سيرش
+                  //و اطلع برا و ارجع تاني ملقيش الداتا بتاعت السيرش القديم
+                  cubit.search = [];
+                },
                 icon: const Icon(Icons.search),
               ),
               IconButton(
