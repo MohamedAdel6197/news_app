@@ -22,6 +22,7 @@ void main() async {
   ));
 }
 
+// ignore: must_be_immutable
 class NewsApp extends StatelessWidget {
   bool? isDarkSaved;
   NewsApp({
@@ -32,8 +33,11 @@ class NewsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          AppCubit()..changeDarkModeTheme(savedBool: isDarkSaved),
+      create: (context) => AppCubit()
+        ..changeDarkModeTheme(savedBool: isDarkSaved)
+        ..getBusiness()
+        ..getSports()
+        ..getScience(),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -66,17 +70,18 @@ class NewsApp extends StatelessWidget {
                 selectedItemColor: Colors.deepOrange,
                 unselectedItemColor: Colors.grey,
               ),
-              textTheme: const TextTheme(
-                bodyLarge: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w500,
-                ),
-                bodyMedium: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.black,
-                ),
-              ),
+
+              // textTheme: const TextTheme(
+              //   bodyLarge: TextStyle(
+              //     fontSize: 20.0,
+              //     color: Colors.black,
+              //     fontWeight: FontWeight.w500,
+              //   ),
+              //   bodyMedium: TextStyle(
+              //     fontSize: 16.0,
+              //     color: Colors.black,
+              //   ),
+              // ),
             ),
             darkTheme: ThemeData(
               // ignore: prefer_const_constructors
@@ -106,17 +111,17 @@ class NewsApp extends StatelessWidget {
                 unselectedItemColor: Colors.grey,
               ),
               // ignore: prefer_const_constructors
-              textTheme: TextTheme(
-                bodyLarge: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500,
-                ),
-                bodyMedium: const TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.white,
-                ),
-              ),
+              // textTheme: TextTheme(
+              //   bodyLarge: const TextStyle(
+              //     color: Colors.white,
+              //     fontSize: 20.0,
+              //     fontWeight: FontWeight.w500,
+              //   ),
+              //   bodyMedium: const TextStyle(
+              //     fontSize: 16.0,
+              //     color: Colors.white,
+              //   ),
+              // ),
             ),
             themeMode:
                 AppCubit.get(context).isDark ? ThemeMode.dark : ThemeMode.light,
